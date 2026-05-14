@@ -1,0 +1,7 @@
+[flyway]
+# Allow migrations to be applied out-of-order
+outOfOrder = true
+validateOnMigrate = false
+baselineOnMigrate = true
+baselineVersion = "2024.03.31"
+validateMigrationNaming = true

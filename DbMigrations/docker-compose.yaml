@@ -1,0 +1,36 @@
+name: db-migrations
+
+services:
+  sql-migrations:
+    image: redgate/flyway:${FLYWAY_IMAGE_TAG}
+    container_name: sql-migrations
+    command: [ "migrate" ]
+    env_file:
+      - .env
+    volumes:
+      - ./flyway.keep.toml:/flyway/conf/flyway.keep.toml
+      - ./local.DB.flyway.toml:/flyway/conf/local.DB.flyway.toml
+      - ./Scripts:/flyway/sql
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "" # password
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    restart: unless-stopped
+    networks:
+      - backend-net
+volumes:
+  sqlserver_data:
+
+networks:
+  backend-net:
+    driver: bridge

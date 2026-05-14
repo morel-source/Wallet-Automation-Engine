@@ -1,0 +1,21 @@
+# ignore all env file since they usually contain sensitive data
+*.env
+
+# keep envs deliberatly named that way
+!*.keep.env
+
+# keep examples
+!*.example.env
+
+# keep root env, required for docker-compose smooth experience
+!.env
+
+# ignore toml since they probable contain sensitive data
+*.toml
+
+# keep the ones deliberatly named that way
+!*.keep.toml
+
+# keep examples
+!EXAMPLE.*.toml
+!local.*.toml

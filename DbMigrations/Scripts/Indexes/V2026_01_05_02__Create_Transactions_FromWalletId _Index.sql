@@ -1,0 +1,7 @@
+SET ANSI_NULLS ON;
+SET QUOTED_IDENTIFIER ON;
+SET XACT_ABORT ON;
+GO
+
+CREATE INDEX IX_Transactions_FromWallet
+ON dbo.Transactions(FromWalletId);

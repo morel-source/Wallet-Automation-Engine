@@ -28,6 +28,12 @@ SQL Server (Stored Procedures + Constraints)
 
 ---
 
+### Architecture Diagram
+
+![Wallet Architecture](docs/images/wallet-architecture-diagram.png)
+
+---
+
 ### Core Features
 
 #### Authentication

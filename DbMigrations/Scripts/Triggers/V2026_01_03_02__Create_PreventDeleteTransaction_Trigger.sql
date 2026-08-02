@@ -10,5 +10,5 @@ BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 
-    THROW 50012, 'Deleting transactions is not allowed. Data is immutable.', 1;
+    THROW 50011, 'Deleting transactions is not allowed. Data is immutable.', 1;
 END;

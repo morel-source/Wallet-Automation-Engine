@@ -14,9 +14,9 @@ public interface IWalletService
     Task<Result<WithdrawResponse>> Withdraw(int userId, int walletId, decimal amount,
         CancellationToken cancellationToken = default);
 
-    Task<Result<TransferFundsResponse>> TransferFunds(int userId, int fromWalletId, int tomWalletId, decimal amount,
+    Task<Result<TransferFundsResponse>> TransferFunds(int userId, int fromWalletId, int toWalletId, decimal amount,
         CancellationToken cancellationToken = default);
 
-    Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId,
-        CancellationToken cancellationToken = default);
+    Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId, DateTime? from, DateTime? to,
+        int? limit, CancellationToken cancellationToken = default);
 }

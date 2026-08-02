@@ -61,11 +61,17 @@ public class WalletController(IWalletService walletService) : ControllerBase
     }
 
     [HttpGet("{walletId}/transactions")]
-    public async Task<IActionResult> GetTransactions([FromRoute] int walletId,
+    public async Task<IActionResult> GetTransactions(
+        [FromRoute] int walletId,
+        [FromQuery] DateTime? from,
+        [FromQuery] DateTime? to,
+        [FromQuery] int? limit,
         CancellationToken cancellationToken = default)
     {
         var userId = User.GetUserId();
-        var res = await walletService.GetTransactions(userId, walletId, cancellationToken);
+
+        var res = await walletService.GetTransactions(userId, walletId, from, to, limit, cancellationToken);
+
         return res.IsSuccess
             ? Ok(res.Value)
             : BadRequest(res.Error);

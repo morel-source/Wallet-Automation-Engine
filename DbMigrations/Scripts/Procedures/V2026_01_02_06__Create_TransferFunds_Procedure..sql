@@ -11,19 +11,19 @@ CREATE OR ALTER PROCEDURE dbo.TransferFunds
 BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
-        
+
     IF NOT EXISTS (SELECT 1 FROM dbo.Wallets WHERE Id = @FromWalletId AND UserId = @UserId)
         THROW 60000, 'Unauthorized wallet access', 1;
-       
-    IF @Amount IS NULL OR @Amount <= 0 
+
+    IF @Amount IS NULL OR @Amount <= 0
        THROW 50005, 'Invalid amount', 1;
-       
-    IF @FromWalletId = @ToWalletId 
-       THROW 50007, 'Same wallet', 1; 
-   
-    IF NOT EXISTS (SELECT 1 FROM dbo.Wallets WHERE Id = @ToWalletId) 
-       THROW 50009, 'Target not found', 1; 
-       
+
+    IF @FromWalletId = @ToWalletId
+       THROW 50007, 'Same wallet', 1;
+
+    IF NOT EXISTS (SELECT 1 FROM dbo.Wallets WHERE Id = @ToWalletId)
+       THROW 50009, 'Target not found', 1;
+
     DECLARE @TransactionId INT;
 
     BEGIN TRANSACTION;
@@ -43,7 +43,7 @@ BEGIN
         SELECT @Dummy1 = 1 FROM dbo.Wallets WITH (UPDLOCK, ROWLOCK) WHERE Id = @ToWalletId;
         SELECT @Dummy2 = 1 FROM dbo.Wallets WITH (UPDLOCK, ROWLOCK) WHERE Id = @FromWalletId;
     END
-    
+
     DECLARE @Balance DECIMAL(18,2);
 
     SELECT @Balance = Balance
@@ -57,26 +57,25 @@ BEGIN
     VALUES (@FromWalletId, @ToWalletId, @Amount, 3); -- Transfer
 
     SET @TransactionId = SCOPE_IDENTITY();
-    
+
     COMMIT TRANSACTION;
 
     SELECT
-    @TransactionId AS TransactionId,
-    @FromWalletId AS FromWalletId,
-    @ToWalletId AS ToWalletId,
-    @Amount AS Amount,
-    @Balance - @Amount AS FromBalanceAfter,
-    (SELECT Balance FROM dbo.Wallets WHERE Id = @FromWalletId) AS ToBalanceAfter,
-    3 AS Type,
-    SYSDATETIME() AS CreatedAt;
+        @TransactionId AS TransactionId,
+        @FromWalletId AS FromWalletId,
+        @ToWalletId AS ToWalletId,
+        @Amount AS Amount,
+        @Balance - @Amount AS FromBalanceAfter,
+        (SELECT Balance FROM dbo.Wallets WHERE Id = @ToWalletId) AS ToBalanceAfter,
+        3 AS Type,
+        SYSDATETIME() AS CreatedAt;
 
     END TRY
     BEGIN CATCH
-
+    
     IF @@TRANCOUNT > 0
-        ROLLBACK TRANSACTION;
-
-        THROW;
+            ROLLBACK TRANSACTION;
+    
+            THROW;
     END CATCH
 END;
-

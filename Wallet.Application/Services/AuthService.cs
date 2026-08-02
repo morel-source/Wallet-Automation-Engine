@@ -38,7 +38,7 @@ public sealed class AuthService(
             return Result<RegisterResponse>.Failure(error.ErrorMessage, error.ErrorCode);
         }
 
-        var token = jwtProvider.GenerateToken(user.Value.UserId, email);
+        var token = jwtProvider.GenerateToken(user.Value.UserId, email, user.Value.WalletId);
 
         logger.LogInformation("Register complete successfully");
 
@@ -82,7 +82,7 @@ public sealed class AuthService(
             return Result<LoginResponse>.Failure("Invalid credentials", DomainErrorCode.Unauthorized);
         }
 
-        var token = jwtProvider.GenerateToken(user.Value.Id, user.Value.Email);
+        var token = jwtProvider.GenerateToken(user.Value.Id, user.Value.Email, user.Value.WalletId);
 
         logger.LogInformation("Login completed");
 

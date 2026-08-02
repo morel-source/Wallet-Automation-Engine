@@ -61,7 +61,8 @@ public sealed class UserRepository(
                 {
                     Id = reader.Get<int>(column: "Id"),
                     Email = reader.Get<string>(column: "Email"),
-                    PasswordHash = reader.Get<string>(column: "PasswordHash")
+                    PasswordHash = reader.Get<string>(column: "PasswordHash"),
+                    WalletId = reader.Get<int>(column: "WalletId")
                 },
                 cancellationToken: cancellationToken,
                 parameters: new SqlParameter("@Email", email));

@@ -3,5 +3,12 @@ SET QUOTED_IDENTIFIER ON;
 SET XACT_ABORT ON;
 GO
 
-CREATE INDEX IX_Transactions_CreatedAt
-ON dbo.Transactions(CreatedAt);
+IF NOT EXISTS (
+    SELECT 1 FROM sys.indexes 
+    WHERE name = 'IX_Transactions_CreatedAt' 
+    AND object_id = OBJECT_ID('dbo.Transactions')
+)
+BEGIN
+    CREATE INDEX IX_Transactions_CreatedAt
+    ON dbo.Transactions(CreatedAt);
+END;

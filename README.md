@@ -59,6 +59,7 @@ SQL Server (Stored Procedures + Constraints)
 - API extracts user identity from the token.
 - All wallet operations validate ownership in SQL Server.
 - Users cannot access wallets that do not belong to them.
+
 ---
 
 ### Database Design
@@ -79,7 +80,6 @@ SQL Server (Stored Procedures + Constraints)
 - `dbo.GetUserBalance` - Retrieves the current wallet balance and wallet information.
 - `dbo.GetTransactions` - Returns transaction history for a specific wallet.
 
-
 #### Triggers
 
 - `trg_UpdateWalletBalance` - Automatically updates wallet balances after transaction inserts.
@@ -93,12 +93,14 @@ SQL Server (Stored Procedures + Constraints)
 Database schema and stored procedures are managed using Flyway.
 
 Migrations include:
+
 - Tables
 - Constraints
 - Triggers
 - Stored Procedures
 
 Benefits:
+
 - Version-controlled database changes.
 - Repeatable deployments.
 - Consistent environments across development and testing.
@@ -114,6 +116,7 @@ Benefits:
 - Financial operations use `BEGIN TRANSACTION / COMMIT / ROLLBACK`.
 - XACT_ABORT prevents partial updates.
 - Database triggers maintain wallet balance consistency.
+
 ---
 
 ### API Endpoints
@@ -124,6 +127,7 @@ Benefits:
 POST /api/auth/register
 POST /api/auth/login
 ```
+
 #### Wallet Operations (JWT required)
 
 ```text
@@ -133,6 +137,7 @@ POST /api/wallet/transfer
 GET  /api/wallet/{id}/balance
 GET  /api/wallet/{id}/transactions
 ```
+
 ---
 
 ### Testing

@@ -12,14 +12,15 @@ public sealed class JwtProvider(
     IOptions<JwtOptions> options
 ) : IJwtProvider
 {
-    public string GenerateToken(int userId, string email)
+    public string GenerateToken(int userId, string email, int walletId)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
             new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, email),
-            new Claim(ClaimTypes.Role, "User")
+            new Claim(ClaimTypes.Role, "User"),
+            new Claim("walletId", walletId.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(options.Value.Key));
@@ -30,7 +31,7 @@ public sealed class JwtProvider(
             issuer: options.Value.Issuer,
             audience: options.Value.Audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddDays(7),
+            expires: DateTime.UtcNow.AddDays(options.Value.ExpirationDays),
             signingCredentials: creds);
 
         logger.LogInformation("JWT token generated successfully");

@@ -14,7 +14,12 @@ public sealed class TransactionRepository(
     ISqlManageAsync sqlManageAsync
 ) : ITransactionRepository
 {
-    public async Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId,
+    public async Task<Result<List<TransactionResponse>>> GetTransactions(
+        int userId,
+        int walletId,
+        DateTime? from,
+        DateTime? to,
+        int? limit,
         CancellationToken cancellationToken = default)
     {
         try
@@ -35,7 +40,10 @@ public sealed class TransactionRepository(
                 parameters:
                 [
                     new SqlParameter("@UserId", SqlDbType.Int) { Value = userId },
-                    new SqlParameter("@WalletId", SqlDbType.Int) { Value = walletId }
+                    new SqlParameter("@WalletId", SqlDbType.Int) { Value = walletId },
+                    new SqlParameter("@From", SqlDbType.DateTime2) { Value = (object?)from ?? DBNull.Value },
+                    new SqlParameter("@To", SqlDbType.DateTime2) { Value = (object?)to ?? DBNull.Value },
+                    new SqlParameter("@Limit", SqlDbType.Int) { Value = (object?)limit ?? DBNull.Value }
                 ]);
 
             logger.LogInformation("SQL GetTransactions success");

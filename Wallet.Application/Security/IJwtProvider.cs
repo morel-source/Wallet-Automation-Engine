@@ -2,5 +2,5 @@ namespace Wallet.Application.Security;
 
 public interface IJwtProvider
 {
-    string GenerateToken(int userId, string email);
+    string GenerateToken(int userId, string email, int walletId);
 }

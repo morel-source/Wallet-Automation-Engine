@@ -11,8 +11,11 @@ services:
       - ./flyway.keep.toml:/flyway/conf/flyway.keep.toml
       - ./local.DB.flyway.toml:/flyway/conf/local.DB.flyway.toml
       - ./Scripts:/flyway/sql
+    networks: 
+      - backend-net 
     depends_on:
-      - sqlserver
+        sqlserver:
+          condition: service_healthy # <-- Wait until SQL Server is fully ready
 
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -26,6 +29,12 @@ services:
     volumes:
       - sqlserver_data:/var/opt/mssql
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "/opt/mssql-tools18/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "Samsung@123!", "-Q", "SELECT 1", "-C" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     networks:
       - backend-net
 volumes:

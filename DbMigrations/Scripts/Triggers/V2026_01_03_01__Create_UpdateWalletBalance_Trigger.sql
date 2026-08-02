@@ -11,18 +11,18 @@ BEGIN
     SET XACT_ABORT ON;
 
     ;WITH FromAgg AS(
-        SELECT 
-            FromWalletId as WalletId,
-            SUM(Amount) AS TotalAmount
-        FROM INSERTED
-        WHERE FromWalletId IS NOT NULL
-        GROUP BY FromWalletId
+    SELECT
+        FromWalletId as WalletId,
+        SUM(Amount) AS TotalAmount
+    FROM INSERTED
+    WHERE FromWalletId IS NOT NULL
+    GROUP BY FromWalletId
     )
 
     UPDATE w
     SET w.Balance = w.Balance - f.TotalAmount
-    FROM dbo.Wallets w
-    INNER JOIN FromAgg f
+        FROM dbo.Wallets w
+        INNER JOIN FromAgg f
     ON w.Id = f.WalletId
 
 
@@ -40,6 +40,6 @@ BEGIN
     FROM dbo.Wallets w
     INNER JOIN ToAgg t ON w.Id = t.WalletId;
 
-    IF EXISTS ( SELECT 1   FROM dbo.Wallets  WHERE Balance < 0)
-        THROW 50013, 'Balance cannot be negative', 1;
+    IF EXISTS ( SELECT 1 FROM dbo.Wallets  WHERE Balance < 0)
+        THROW 50012, 'Balance cannot be negative', 1;
 END;

@@ -57,4 +57,10 @@
     <data name="UserNotExist" xml:space="preserve">
         <value>User not exists</value>
     </data>
+    <data name="BalanceCannotBeNegative" xml:space="preserve">
+        <value>Balance cannot be negative.</value>
+    </data>
+    <data name="TransactionDeletionNotAllowed" xml:space="preserve">
+        <value>Deleting transactions is not allowed. Data is immutable.</value>
+    </data>
 </root>

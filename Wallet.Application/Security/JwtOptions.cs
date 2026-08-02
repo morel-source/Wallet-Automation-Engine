@@ -1,13 +1,10 @@
 namespace Wallet.Application.Security;
 
-public record JwtOptions(string Key, string Issuer, string Audience)
+public sealed class JwtOptions
 {
     public const string SectionName = "Jwt";
-
-    public JwtOptions() : this(
-        Key: "super-secret-key",
-        Issuer: "WalletApi",
-        Audience: "WalletApiUsers")
-    {
-    }
+    public string Key { get; init; } = "super-secret-key";
+    public string Issuer { get; init; } = "WalletApi";
+    public string Audience { get; init; } = "WalletApiUsers";
+    public int ExpirationDays { get; init; } = 7;
 }

@@ -64,10 +64,11 @@ public sealed class WalletService(
         return result;
     }
 
-    public async Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId,
+    public async Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId, DateTime? from,
+        DateTime? to, int? limit,
         CancellationToken cancellationToken = default)
     {
-        var result = await transactionRepository.GetTransactions(userId, walletId, cancellationToken);
+        var result = await transactionRepository.GetTransactions(userId, walletId, from, to, limit, cancellationToken);
 
         if (result.IsSuccess)
             logger.LogInformation("Wallet transactions success");

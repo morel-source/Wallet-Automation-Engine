@@ -5,6 +5,6 @@ namespace Wallet.Repository.Interfaces;
 
 public interface ITransactionRepository
 {
-    Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId,
-        CancellationToken cancellationToken = default);
+    Task<Result<List<TransactionResponse>>> GetTransactions(int userId, int walletId, DateTime? from, DateTime? to,
+        int? limit, CancellationToken cancellationToken = default);
 }

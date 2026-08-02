@@ -60,6 +60,15 @@ namespace Wallet.Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Balance cannot be negative..
+        /// </summary>
+        internal static string BalanceCannotBeNegative {
+            get {
+                return ResourceManager.GetString("BalanceCannotBeNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot transfer to the same wallet..
         /// </summary>
         internal static string CannotTransferFromSameWallet {
@@ -119,6 +128,15 @@ namespace Wallet.Domain {
         internal static string ToWalletNotFound {
             get {
                 return ResourceManager.GetString("ToWalletNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting transactions is not allowed. Data is immutable..
+        /// </summary>
+        internal static string TransactionDeletionNotAllowed {
+            get {
+                return ResourceManager.GetString("TransactionDeletionNotAllowed", resourceCulture);
             }
         }
         

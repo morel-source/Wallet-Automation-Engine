@@ -9,7 +9,7 @@ namespace Wallet.Application.Security;
 
 public static class JwtExtensions
 {
-    public static void AddAuthentication(this WebApplicationBuilder builder)
+    public static void AddJwtAuthentication(this WebApplicationBuilder builder)
     {
         builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 

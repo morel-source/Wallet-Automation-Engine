@@ -9,12 +9,10 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
         CancellationToken cancellationToken
     )
     {
-        // log the error
         logger.LogError(
-            exception, "Error Message:{Message}, Occurred at: {Time}", exception.Message, DateTime.Now);
+            exception, message: "Error Message:{Message}, Occurred at: {Time}", exception.Message, DateTime.Now);
 
-        // create the error
-        ProblemDetails problemDetails = new ProblemDetails()
+        ProblemDetails problemDetails = new ProblemDetails
         {
             Title = exception.GetType().Name,
             Detail = exception.Message,
@@ -24,8 +22,6 @@ public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logge
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;
 
-        // write the details to te http response
-        // serialize the response and send back to the client
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken: cancellationToken);
 
         return true;

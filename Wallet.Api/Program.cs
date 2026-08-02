@@ -1,38 +1,33 @@
 using System.Text.Json;
 using Wallet.Api.Extensions;
-using Wallet.Api.Middleware;
 using Wallet.Application.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddWalletCore();
-builder.AddAuthentication();
+builder.AddGlobalException();
+builder.AddCoreServices();
+builder.AddJwtAuthentication();
+builder.AddCorsPolicy();
+builder.AddRateLimiter();
+
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });
 
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddProblemDetails();
-builder.Services.AddOpenApi();
-
-builder.Logging.AddConsole();
+builder.AddOpenApi();
 
 var app = builder.Build();
 
+app.UseGlobalException();
 app.UseHttpsRedirection();
-app.UseExceptionHandler();
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
-app.UseHttpsRedirection();
-app.UseRouting();
+app.UseCorsPolicy();
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
+app.CheckDevelopmentMode();
 app.MapControllers();
+
 app.MapGet("/", () => "Server is running");
 
 app.Run();

@@ -11,7 +11,7 @@ public static class ApiExtensions
 {
     extension(WebApplicationBuilder builder)
     {
-        public void AddWalletCore()
+        public void AddCoreServices()
         {
             builder.Services.Configure<SqlProviderOptions>(builder.Configuration.GetSection(key: "SqlProviderOptions"));
             builder.AddRepositories();

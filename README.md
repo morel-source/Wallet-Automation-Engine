@@ -62,6 +62,43 @@ SQL Server (Stored Procedures + Constraints)
 
 ---
 
+## Configuration
+
+### JWT signing key (secrets, not appsettings.json)
+
+The real `Jwt:Key` must never live in `appsettings.json` - it would end up
+committed to git. `appsettings.json` only holds non-secret defaults
+(`Issuer`/`Audience`/`ExpirationDays`); the actual key is configured via
+.NET user secrets, and the app won't start without it.
+
+**This key must be identical to the one configured in
+[Wallet-Operations-Agent](../Wallet-Operations-Agent)** - that project
+validates the JWTs this one issues, using the same key, issuer, and
+audience. If you haven't generated one yet, do it from either project and
+copy the same value into both.
+
+```bash
+# From this project's API folder
+dotnet user-secrets init   # only if it doesn't already have a UserSecretsId
+dotnet user-secrets set "Jwt:Key" "<the-same-key-as-the-Agent>"
+```
+
+If `Issuer` or `Audience` differ from the defaults already in
+`appsettings.json` (`WalletApi` / `WalletApiUsers`), set those the same way:
+
+```bash
+dotnet user-secrets set "Jwt:Issuer" "..."
+dotnet user-secrets set "Jwt:Audience" "..."
+```
+
+On Windows, user secrets are stored at:
+
+```
+%APPDATA%\Microsoft\UserSecrets\<UserSecretsId>\secrets.json
+```
+
+---
+
 ### Database Design
 
 #### Core Tables

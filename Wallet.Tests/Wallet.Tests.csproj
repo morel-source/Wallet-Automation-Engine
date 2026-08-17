@@ -30,15 +30,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.Data.SqlClient">
-        <HintPath>..\Wallet.Api\bin\Debug\net10.0\Microsoft.Data.SqlClient.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Wallet.Api\Wallet.Api.csproj" />
       <ProjectReference Include="..\Wallet.Application\Wallet.Application.csproj" />
       <ProjectReference Include="..\Wallet.Domain\Wallet.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\DbMigrations\.env">
+        <Link>DbMigrations\.env</Link>
+      </Content>
+      <Content Include="..\DbMigrations\local.DB.flyway">
+        <Link>DbMigrations\local.DB.flyway</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

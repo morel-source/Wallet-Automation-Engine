@@ -1,4 +1,4 @@
 [environments.default]
 url = "jdbc:sqlserver://sqlserver:1433;databaseName=WalletAutomationEngine;encrypt=false;trustServerCertificate=true"
 user = "sa"
-password = ""
+password = "change-me"

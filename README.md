@@ -72,7 +72,7 @@ committed to git. `appsettings.json` only holds non-secret defaults
 .NET user secrets, and the app won't start without it.
 
 **This key must be identical to the one configured in
-[Wallet-Operations-Agent](../Wallet-Operations-Agent)** - that project
+[Wallet-Operations-Agent](https://github.com/morel-source/Wallet-Operations-Agent)** - that project
 validates the JWTs this one issues, using the same key, issuer, and
 audience. If you haven't generated one yet, do it from either project and
 copy the same value into both.
